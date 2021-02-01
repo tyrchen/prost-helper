@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "prost-helper",
+    "prost-serde",
+]

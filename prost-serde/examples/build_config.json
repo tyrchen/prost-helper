@@ -1,0 +1,59 @@
+{
+    "includes": [
+        "examples/"
+    ],
+    "files": [
+        "examples/hello.proto"
+    ],
+    "output": "examples/pb",
+    "opts": [
+        {
+            "scope": "type",
+            "description": "serde support for message",
+            "attr": "#[derive(serde::Serialize, serde::Deserialize)]\n#[serde(default)]",
+            "paths": [
+                "helloworld.Hello"
+            ]
+        },
+        {
+            "scope": "type",
+            "description": "serde support for enum",
+            "attr": "#[derive(serde::Serialize, serde::Deserialize)]\n#[serde(rename_all = \"lowercase\")]",
+            "paths": [
+                "helloworld.Status"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "skip string default values",
+            "attr": "#[serde(skip_serializing_if = \"String::is_empty\", default)]",
+            "paths": [
+                "msg"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "skip null values",
+            "attr": "#[serde(deserialize_with = \"prost_helper::deserialize_null_default\")]",
+            "paths": [
+                "field_may_be_null"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "skip 0 for any num",
+            "attr": "#[serde(skip_serializing_if = \"prost_helper::is_zero\")]",
+            "paths": [
+                "field_skip_zero"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "skip the field for serialization",
+            "attr": "#[serde(skip_serializing)]",
+            "paths": [
+                "filed_skip"
+            ]
+        }
+    ]
+}
