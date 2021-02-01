@@ -11,7 +11,7 @@ description = """
 A prost toolkit to build protobuf with serde support.
 """
 readme = "../README.md"
-categories = ["tool"]
+categories = ["development-tools::build-utils"]
 keywords = ["protobuf", "prost", "serde"]
 
 [dependencies]

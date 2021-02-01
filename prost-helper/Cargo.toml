@@ -11,7 +11,7 @@ description = """
 A set of prost helper functions to make prost generated code easy to work with.
 """
 readme = "../README.md"
-categories = ["tool"]
+categories = ["development-tools"]
 keywords = ["protobuf", "prost", "serde"]
 
 [dependencies]
