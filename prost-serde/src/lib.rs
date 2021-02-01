@@ -47,35 +47,35 @@ use std::{fs, process::Command};
 
 #[derive(Deserialize, Serialize, Debug, Default)]
 #[serde(default)]
-struct BuildConfig {
+pub struct BuildConfig {
     /// protobuf include dirs
-    includes: Vec<String>,
+    pub includes: Vec<String>,
     /// protobuf files
-    files: Vec<String>,
+    pub files: Vec<String>,
     /// dir for generated code
-    output: String,
+    pub output: String,
     /// build options for serde support
-    opts: Vec<BuildOption>,
+    pub opts: Vec<BuildOption>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
 #[serde(default)]
-struct BuildOption {
+pub struct BuildOption {
     /// scope of the attribute
-    scope: String,
+    pub scope: String,
     /// description of the option
-    description: String,
+    pub description: String,
     /// extra attribute to put on generated data structure, for example: `#[derive(Serialize, Deserialize)]`
-    attr: String,
+    pub attr: String,
     /// a list of paths you want to add the attribute
-    paths: Vec<String>,
+    pub paths: Vec<String>,
 }
 
 /// Build the protobuf files with the build opts provided by a JSON string.
 ///
 /// Normally you should put the json file in your crate, and load it with `include_str!`,
 /// then pass it to this build function.
-pub fn build_with_serde(json: &str) {
+pub fn build_with_serde(json: &str) -> BuildConfig {
     let build_config: BuildConfig = serde_json::from_str(json).unwrap();
 
     let mut config = prost_build::Config::new();
@@ -100,6 +100,8 @@ pub fn build_with_serde(json: &str) {
         .args(&["fmt"])
         .status()
         .expect("cargo fmt failed");
+
+    build_config
 }
 
 #[cfg(test)]

@@ -1,15 +1,15 @@
 {
     "includes": [
-        "examples/"
+        "examples"
     ],
     "files": [
         "examples/hello.proto"
     ],
     "output": "examples/pb",
+    "output_file": "examples/pb/pb.rs",
     "opts": [
         {
             "scope": "type",
-            "description": "serde support for message",
             "attr": "#[derive(serde::Serialize, serde::Deserialize)]\n#[serde(default)]",
             "paths": [
                 "helloworld.Hello"
