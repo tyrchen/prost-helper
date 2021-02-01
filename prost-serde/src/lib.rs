@@ -28,7 +28,7 @@
 //! # Getting started
 //!
 //! First of all, you shall create a JSON file which contains configuration for the builder. You can
-//! get a copy of a default JSON file from: https://github.com/tyrchen/prost-helper/prost-serde/default_build_config.json.
+//! get a copy of a default JSON file from: [default_build_config.json](https://raw.githubusercontent.com/tyrchen/prost-helper/master/prost-serde/default_build_config.json). See an example of [build_config.json](https://raw.githubusercontent.com/tyrchen/prost-helper/master/prost-serde/examples/build_config.json).
 //! Please add the proto files, proto includes, output dir, and the data structure or field you want
 //! to add the desired attributes.
 //! Then you could use it in:
@@ -71,9 +71,10 @@ struct BuildOption {
     paths: Vec<String>,
 }
 
-/// Encodes the message to a buffer.
+/// Build the protobuf files with the build opts provided by a JSON string.
 ///
-/// An error will be returned if the buffer does not have sufficient capacity.
+/// Normally you should put the json file in your crate, and load it with `include_str!`,
+/// then pass it to this build function.
 pub fn build_with_serde(json: &str) {
     let build_config: BuildConfig = serde_json::from_str(json).unwrap();
 

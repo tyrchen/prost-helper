@@ -1,3 +1,7 @@
+/// Generate `From` and `Into` for your prost message.
+///
+/// When you use it, plese include `use prost::Message;` in your code.
+/// Note both `$type` and `&$type` will be generated.
 #[macro_export]
 macro_rules! prost_into_vec {
     ($type:ty, $cap:expr) => {
@@ -18,6 +22,10 @@ macro_rules! prost_into_vec {
     };
 }
 
+/// Generate `TryFrom` and `TryInto` for your prost message from `Vec<u8>`.
+///
+/// When you use it, plese include `use prost::Message;` in your code.
+/// Please remember to `use std::convert::TryInto;` when you want to use generated functions.
 #[macro_export]
 macro_rules! vec_try_into_prost {
     ($type:ty) => {
