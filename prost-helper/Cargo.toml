@@ -3,8 +3,16 @@ name = "prost-helper"
 version = "0.1.0"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+documentation = "https://docs.rs/prost-helper/0.1.0/prost_helper/"
+repository = "https://github.com/tyrchen/prost-helper"
+homepage = "https://github.com/tyrchen/prost-helper"
+description = """
+A set of prost helper functions to make prost generated code easy to work with.
+"""
+readme = "../README.md"
+categories = ["tool"]
+keywords = ["protobuf", "prost", "serde"]
 
 [dependencies]
 bytes = "1"
