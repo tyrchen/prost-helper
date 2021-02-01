@@ -59,6 +59,6 @@ Have fun with prost!
 
 `prost-helper` is distributed under the terms of MIT.
 
-See [LICENSE](LICENSE) for details.
+See [LICENSE](LICENSE.md) for details.
 
 Copyright 2021 Tyr Chen
