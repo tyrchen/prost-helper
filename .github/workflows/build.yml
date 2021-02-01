@@ -14,9 +14,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
-    defaults:
-      run:
-        working-directory: rust
     steps:
       - uses: actions/checkout@v2
       - name: Cache cargo registry
