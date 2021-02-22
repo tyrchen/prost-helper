@@ -34,6 +34,12 @@ use serde::{Deserialize, Deserializer};
 
 pub mod macros;
 
+#[cfg(feature = "json")]
+/// Convert the prost message to JSON string for debugging purpose. Need serde_json support.
+pub trait ToJson {
+    fn to_json(&self) -> String;
+}
+
 /// customized skip_serializing_if function to skip 0 for numbers.
 pub fn is_zero(v: impl Num) -> bool {
     v.is_zero()

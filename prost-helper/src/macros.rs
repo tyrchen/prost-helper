@@ -47,15 +47,30 @@ macro_rules! vec_try_into_prost {
     };
 }
 
+#[cfg(feature = "json")]
+#[macro_export]
+macro_rules! prost_to_json {
+    ($type:ty) => {
+        impl crate::ToJson for $type {
+            fn to_json(&self) -> String {
+                serde_json::to_string(self).unwrap()
+            }
+        }
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use prost::Message;
+    use serde::{Deserialize, Serialize};
     use std::convert::TryInto;
 
-    #[derive(Clone, PartialEq, Message)]
+    #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
     pub struct Hello {
         #[prost(string, tag = "1")]
         pub msg: String,
+        #[prost(uint64, tag = "2")]
+        pub value: u64,
     }
 
     #[test]
@@ -72,5 +87,15 @@ mod tests {
         assert_eq!(hello_result1.unwrap(), hello);
         assert_eq!(hello_result2.is_ok(), true);
         assert_eq!(hello_result2.unwrap(), hello);
+    }
+
+    #[cfg(feature = "json")]
+    #[test]
+    fn test_prost_to_json() {
+        use crate::ToJson;
+        prost_to_json!(Hello);
+        let hello = Hello::default();
+        let result = hello.to_json();
+        assert_eq!(result, r#"{"msg":"","value":0}"#);
     }
 }
