@@ -55,8 +55,81 @@ where
     Ok(opt.unwrap_or_default())
 }
 
+#[cfg(feature = "b64")]
+pub mod b64 {
+    use base64::{decode_config, display::Base64Display, URL_SAFE_NO_PAD};
+    use serde::{de, Deserialize, Deserializer, Serializer};
+
+    pub fn serialize<S>(bytes: &[u8], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        // serializer.serialize_str(&base64::encode(bytes))
+
+        // use a wrapper type with a Display implementation to avoid
+        // allocating the String.
+        //
+        serializer.collect_str(&Base64Display::with_config(bytes, URL_SAFE_NO_PAD))
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = <&str>::deserialize(deserializer)?;
+        decode_config(s, URL_SAFE_NO_PAD).map_err(de::Error::custom)
+    }
+}
+
+#[cfg(feature = "b64")]
+pub mod b64vec {
+    use base64::{decode_config, encode_config, URL_SAFE_NO_PAD};
+    use serde::{de, ser::SerializeSeq, Deserializer, Serializer};
+
+    pub fn serialize<S>(data: &[Vec<u8>], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(data.len()))?;
+        for item in data {
+            let e = encode_config(item, URL_SAFE_NO_PAD);
+            seq.serialize_element(&e)?;
+        }
+        seq.end()
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<Vec<u8>>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct Visitor;
+
+        impl<'de> ::serde::de::Visitor<'de> for Visitor {
+            type Value = Vec<Vec<u8>>;
+
+            fn expecting(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+                write!(f, "a sequence of base64 ASCII text")
+            }
+
+            fn visit_seq<S>(self, mut seq: S) -> Result<Self::Value, S::Error>
+            where
+                S: de::SeqAccess<'de>,
+            {
+                let mut data: Vec<Vec<u8>> = Vec::with_capacity(seq.size_hint().unwrap_or(0));
+                while let Some(v) = seq.next_element::<Vec<u8>>()? {
+                    data.push(decode_config(v, URL_SAFE_NO_PAD).map_err(de::Error::custom)?);
+                }
+                Ok(data)
+            }
+        }
+
+        deserializer.deserialize_seq(Visitor)
+    }
+}
+
 #[cfg(test)]
 mod tests {
+
     use super::*;
 
     #[test]
@@ -67,5 +140,49 @@ mod tests {
     #[test]
     fn is_zero_work_for_u64() {
         assert_eq!(is_zero(0u64), true);
+    }
+
+    #[cfg(all(feature = "b64", feature = "json"))]
+    #[test]
+    fn bytes_encoded_with_base64() {
+        use prost::Message;
+        use serde::{Deserialize, Serialize};
+
+        #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
+        pub struct Hello {
+            #[prost(string, tag = "1")]
+            pub msg: String,
+            #[serde(with = "b64")]
+            #[prost(bytes = "vec", tag = "2")]
+            pub value: Vec<u8>,
+        }
+        let hello = Hello {
+            msg: "world".to_owned(),
+            value: b"world".to_vec(),
+        };
+        let s = serde_json::to_string(&hello).unwrap();
+        assert_eq!(s, r#"{"msg":"world","value":"d29ybGQ"}"#);
+    }
+
+    #[cfg(all(feature = "b64", feature = "json"))]
+    #[test]
+    fn vec_bytes_encoded_with_base64() {
+        use prost::Message;
+        use serde::{Deserialize, Serialize};
+
+        #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
+        pub struct Hello {
+            #[prost(string, tag = "1")]
+            pub msg: String,
+            #[serde(with = "b64vec")]
+            #[prost(bytes = "vec", repeated, tag = "2")]
+            pub value: Vec<Vec<u8>>,
+        }
+        let hello = Hello {
+            msg: "world".to_owned(),
+            value: vec![b"world".to_vec()],
+        };
+        let s = serde_json::to_string(&hello).unwrap();
+        assert_eq!(s, r#"{"msg":"world","value":["d29ybGQ"]}"#);
     }
 }
