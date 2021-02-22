@@ -52,7 +52,7 @@ macro_rules! vec_try_into_prost {
 macro_rules! prost_to_json {
 
     ($($type:ty),*) => {
-        $(impl crate::ToJson for $type {
+        $(impl ToJson for $type {
             fn to_json(&self) -> String {
                 serde_json::to_string(self).unwrap()
             }
