@@ -32,8 +32,15 @@ macro_rules! vec_try_into_prost {
         impl std::convert::TryFrom<Vec<u8>> for $type {
             type Error = prost::DecodeError;
             fn try_from(buf: Vec<u8>) -> Result<Self, Self::Error> {
-                let bytes: bytes::Bytes = buf.into();
-                let msg: $type = Message::decode(bytes)?;
+                let msg: $type = Message::decode(&buf[..])?;
+                Ok(msg)
+            }
+        }
+
+        impl std::convert::TryFrom<&[u8]> for $type {
+            type Error = prost::DecodeError;
+            fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+                let msg: $type = Message::decode(buf)?;
                 Ok(msg)
             }
         }
@@ -57,9 +64,13 @@ mod tests {
         vec_try_into_prost!(Hello);
         let hello = Hello::default();
         let data: Vec<u8> = hello.clone().into();
+        let data_ref = &data[..];
 
-        let hello_result: Result<Hello, prost::DecodeError> = data.try_into();
-        assert_eq!(hello_result.is_ok(), true);
-        assert_eq!(hello_result.unwrap(), hello);
+        let hello_result1: Result<Hello, prost::DecodeError> = data_ref.try_into();
+        let hello_result2: Result<Hello, prost::DecodeError> = data.try_into();
+        assert_eq!(hello_result1.is_ok(), true);
+        assert_eq!(hello_result1.unwrap(), hello);
+        assert_eq!(hello_result2.is_ok(), true);
+        assert_eq!(hello_result2.unwrap(), hello);
     }
 }
