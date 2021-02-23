@@ -54,6 +54,21 @@
             "paths": [
                 "filed_skip"
             ]
+        },
+        {
+            "scope": "bytes",
+            "description": "use bytes::Bytes for given bytes field",
+            "paths": [
+                "Hello.data",
+                "Hello.list_data"
+            ]
+        },
+        {
+            "scope": "btree_map",
+            "description": "use BtreeMap for given map field",
+            "paths": [
+                "Hello.map"
+            ]
         }
     ]
 }

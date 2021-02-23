@@ -84,6 +84,8 @@ pub fn build_with_serde(json: &str) -> BuildConfig {
             match opt.scope.as_str() {
                 "type" => config.type_attribute(path, opt.attr.as_str()),
                 "field" => config.field_attribute(path, opt.attr.as_str()),
+                "bytes" => config.bytes(&[path]),
+                "btree_map" => config.btree_map(&[path]),
                 v => panic!("Not supported type: {}", v),
             };
         }

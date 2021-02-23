@@ -14,6 +14,12 @@ pub struct Hello {
     #[prost(string, tag="4")]
     #[serde(skip_serializing)]
     pub filed_skip: ::prost::alloc::string::String,
+    #[prost(bytes="vec", tag="5")]
+    pub data: ::prost::alloc::vec::Vec<u8>,
+    #[prost(btree_map="string, bytes", tag="6")]
+    pub map: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes="bytes", repeated, tag="7")]
+    pub list_data: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
 #[derive(serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]

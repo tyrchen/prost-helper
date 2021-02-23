@@ -3,14 +3,17 @@ syntax = "proto3";
 package helloworld;
 
 message Hello {
-    string msg = 1;
-    string field_may_be_null = 2;
-    uint64 field_skip_zero = 3;
-    string filed_skip = 4;
+  string msg = 1;
+  string field_may_be_null = 2;
+  uint64 field_skip_zero = 3;
+  string filed_skip = 4;
+  bytes data = 5;
+  map<string, bytes> map = 6;
+  repeated bytes list_data = 7;
 }
 
 enum Status {
-    Ok = 0;
-    NotFound = 1;
-    InternalError = 2;
+  Ok = 0;
+  NotFound = 1;
+  InternalError = 2;
 }

@@ -38,6 +38,16 @@
             "description": "skip the field for serialization",
             "attr": "#[serde(skip_serializing)]",
             "paths": []
+        },
+        {
+            "scope": "bytes",
+            "description": "use bytes::Bytes for given bytes field",
+            "paths": []
+        },
+        {
+            "scope": "btree_map",
+            "description": "use BtreeMap for given map field",
+            "paths": []
         }
     ]
 }
