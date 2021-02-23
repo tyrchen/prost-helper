@@ -153,8 +153,8 @@ mod tests {
             #[prost(string, tag = "1")]
             pub msg: String,
             #[serde(with = "b64")]
-            #[prost(bytes = "vec", tag = "2")]
-            pub value: Vec<u8>,
+            #[prost(bytes, tag = "2")]
+            pub value: ::prost::alloc::vec::Vec<u8>,
         }
         let hello = Hello {
             msg: "world".to_owned(),
@@ -162,6 +162,35 @@ mod tests {
         };
         let s = serde_json::to_string(&hello).unwrap();
         assert_eq!(s, r#"{"msg":"world","value":"d29ybGQ"}"#);
+    }
+
+    #[cfg(all(feature = "b64", feature = "json"))]
+    #[test]
+    fn bytes_in_enum_encoded_with_base64() {
+        use prost::{Message, Oneof};
+        use serde::{Deserialize, Serialize};
+
+        #[derive(serde::Serialize, serde::Deserialize)]
+        #[serde(default)]
+        #[derive(Clone, PartialEq, Message)]
+        pub struct ObjectId {
+            /// the value of the id
+            #[prost(oneof = "Data", tags = "2, 3")]
+            pub data: ::core::option::Option<Data>,
+        }
+        #[derive(Clone, PartialEq, Serialize, Deserialize, Oneof)]
+        pub enum Data {
+            #[prost(string, tag = "2")]
+            Result(String),
+            #[serde(with = "b64")]
+            #[prost(bytes, tag = "3")]
+            Value(Vec<u8>),
+        }
+        let data = ObjectId {
+            data: Some(Data::Value(b"world".to_vec())),
+        };
+        let s = serde_json::to_string(&data).unwrap();
+        assert_eq!(s, r#"{"data":{"Value":"d29ybGQ"}}"#);
     }
 
     #[cfg(all(feature = "b64", feature = "json"))]
