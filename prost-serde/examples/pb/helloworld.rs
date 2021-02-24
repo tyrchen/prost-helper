@@ -14,11 +14,17 @@ pub struct Hello {
     #[prost(string, tag="4")]
     #[serde(skip_serializing)]
     pub filed_skip: ::prost::alloc::string::String,
-    #[prost(bytes="vec", tag="5")]
-    pub data: ::prost::alloc::vec::Vec<u8>,
-    #[prost(btree_map="string, bytes", tag="6")]
-    pub map: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes="bytes", repeated, tag="7")]
+    #[prost(bytes="bytes", tag="5")]
+    #[serde(serialize_with = "prost_helper::serialize_buf",deserialize_with = "prost_helper::deserialize_buf_bytes")]
+    pub data1: ::prost::bytes::Bytes,
+    #[prost(bytes="bytes", tag="6")]
+    #[serde(serialize_with = "prost_helper::serialize_buf",deserialize_with = "prost_helper::deserialize_buf_bytes")]
+    pub data2: ::prost::bytes::Bytes,
+    #[prost(btree_map="string, bytes", tag="7")]
+    #[serde(serialize_with = "prost_helper::serialize_buf",deserialize_with = "prost_helper::deserialize_buf_bytes")]
+    pub map: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::bytes::Bytes>,
+    #[prost(bytes="bytes", repeated, tag="8")]
+    #[serde(serialize_with = "prost_helper::serialize_repeat_buf",deserialize_with = "prost_helper::deserialize_repeat_buf_bytes")]
     pub list_data: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
 #[derive(serde::Serialize, serde::Deserialize)]

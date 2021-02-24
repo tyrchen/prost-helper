@@ -6,7 +6,6 @@
         "examples/hello.proto"
     ],
     "output": "examples/pb",
-    "output_file": "examples/pb/pb.rs",
     "opts": [
         {
             "scope": "type",
@@ -59,8 +58,7 @@
             "scope": "bytes",
             "description": "use bytes::Bytes for given bytes field",
             "paths": [
-                "Hello.data",
-                "Hello.list_data"
+                "."
             ]
         },
         {
@@ -68,6 +66,24 @@
             "description": "use BtreeMap for given map field",
             "paths": [
                 "Hello.map"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "serialize Bytes to base64 string",
+            "attr": "#[serde(serialize_with = \"prost_helper::serialize_buf\",deserialize_with = \"prost_helper::deserialize_buf_bytes\")]",
+            "paths": [
+                "Hello.data1",
+                "Hello.data2",
+                "Hello.map"
+            ]
+        },
+        {
+            "scope": "field",
+            "description": "serialize Vec<Bytes> to base64 string",
+            "attr": "#[serde(serialize_with = \"prost_helper::serialize_repeat_buf\",deserialize_with = \"prost_helper::deserialize_repeat_buf_bytes\")]",
+            "paths": [
+                "Hello.list_data"
             ]
         }
     ]
