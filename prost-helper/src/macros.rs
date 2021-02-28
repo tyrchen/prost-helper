@@ -22,6 +22,26 @@ macro_rules! prost_into_vec {
     };
 }
 
+#[macro_export]
+macro_rules! prost_into_bytes {
+    ($(($type:ty, $cap:expr)),*) => {
+        $(impl std::convert::From<$type> for bytes::Bytes {
+            fn from(msg: $type) -> Self {
+                let mut buf = bytes::BytesMut::with_capacity($cap);
+                msg.encode(&mut buf).unwrap();
+                buf.freeze()
+            }
+        }
+        impl std::convert::From<&$type> for bytes::Bytes {
+            fn from(msg: &$type) -> Self {
+                let mut buf = bytes::BytesMut::with_capacity($cap);
+                msg.encode(&mut buf).unwrap();
+                buf.freeze()
+            }
+        })*
+    };
+}
+
 /// Generate `TryFrom` and `TryInto` for your prost message from `Vec<u8>`.
 ///
 /// When you use it, plese include `use prost::Message;` in your code.
@@ -40,6 +60,19 @@ macro_rules! vec_try_into_prost {
         impl std::convert::TryFrom<&[u8]> for $type {
             type Error = prost::DecodeError;
             fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+                let msg: $type = Message::decode(buf)?;
+                Ok(msg)
+            }
+        })*
+    };
+}
+
+#[macro_export]
+macro_rules! bytes_try_into_prost {
+    ($($type:ty),*) => {
+        $(impl std::convert::TryFrom<bytes::Bytes> for $type {
+            type Error = prost::DecodeError;
+            fn try_from(buf: bytes::Bytes) -> Result<Self, Self::Error> {
                 let msg: $type = Message::decode(buf)?;
                 Ok(msg)
             }
@@ -95,7 +128,18 @@ mod tests {
         assert_eq!(hello_result2.is_ok(), true);
         assert_eq!(hello_result2.unwrap(), hello);
     }
+    #[test]
+    fn test_prost_try_into_bytes() {
+        use bytes::Bytes;
+        prost_into_bytes!((Hello, 32), (World, 256));
+        bytes_try_into_prost!(Hello, World);
+        let hello = Hello::default();
+        let data: Bytes = hello.clone().into();
 
+        let hello_result: Result<Hello, prost::DecodeError> = data.try_into();
+        assert_eq!(hello_result.is_ok(), true);
+        assert_eq!(hello_result.unwrap(), hello);
+    }
     #[cfg(feature = "json")]
     #[test]
     fn test_prost_to_json() {
