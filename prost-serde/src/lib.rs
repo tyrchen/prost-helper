@@ -52,8 +52,8 @@ pub struct BuildConfig {
     pub includes: Vec<String>,
     /// protobuf files
     pub files: Vec<String>,
-    /// dir for generated code
-    pub output: String,
+    /// dir for generated code, defaults to Cargo OUT_DIR, else the current dir
+    pub output: Option<String>,
     /// build options for serde support
     pub opts: Vec<BuildOption>,
 }
@@ -78,6 +78,21 @@ pub struct BuildOption {
 pub fn build_with_serde(json: &str) -> BuildConfig {
     let build_config: BuildConfig = serde_json::from_str(json).unwrap();
 
+    // For the output directory, use the specified one, or fallback to the
+    // OUT_DIR env variable provided by Cargo if it exists (it should!), else
+    // fallback to the current directory.
+    let output_dir: String = match &build_config.output {
+        None => {
+            let default_output_dir = std::env::var("OUT_DIR");
+
+            match default_output_dir {
+                Err(_) => String::new(),
+                Ok(cargo_out_dir) => cargo_out_dir,
+            }
+        }
+        Some(specified_output) => specified_output.to_owned(),
+    };
+
     let mut config = prost_build::Config::new();
     for opt in build_config.opts.iter() {
         match opt.scope.as_ref() {
@@ -100,8 +115,8 @@ pub fn build_with_serde(json: &str) -> BuildConfig {
         }
     }
 
-    fs::create_dir_all(&build_config.output).unwrap();
-    config.out_dir(&build_config.output);
+    fs::create_dir_all(&output_dir).unwrap();
+    config.out_dir(&output_dir);
 
     config
         .compile_protos(&build_config.files, &build_config.includes)
