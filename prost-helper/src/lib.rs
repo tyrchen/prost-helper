@@ -67,11 +67,11 @@ mod tests {
 
     #[test]
     fn is_zero_work_for_i32() {
-        assert_eq!(is_zero(0i32), true);
+        assert!(is_zero(0i32));
     }
 
     #[test]
     fn is_zero_work_for_u64() {
-        assert_eq!(is_zero(0u64), true);
+        assert!(is_zero(0u64));
     }
 }

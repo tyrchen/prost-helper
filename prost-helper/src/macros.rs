@@ -123,9 +123,9 @@ mod tests {
 
         let hello_result1: Result<Hello, prost::DecodeError> = data_ref.try_into();
         let hello_result2: Result<Hello, prost::DecodeError> = data.try_into();
-        assert_eq!(hello_result1.is_ok(), true);
+        assert!(hello_result1.is_ok());
         assert_eq!(hello_result1.unwrap(), hello);
-        assert_eq!(hello_result2.is_ok(), true);
+        assert!(hello_result2.is_ok());
         assert_eq!(hello_result2.unwrap(), hello);
     }
     #[test]
@@ -137,7 +137,7 @@ mod tests {
         let data: Bytes = hello.clone().into();
 
         let hello_result: Result<Hello, prost::DecodeError> = data.try_into();
-        assert_eq!(hello_result.is_ok(), true);
+        assert!(hello_result.is_ok());
         assert_eq!(hello_result.unwrap(), hello);
     }
     #[cfg(feature = "json")]
