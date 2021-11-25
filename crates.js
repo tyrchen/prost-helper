@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["prost_helper","prost_serde"];

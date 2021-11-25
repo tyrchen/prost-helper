@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["build_with_serde","Build the protobuf files with the build opts provided by a JSON string."]],"struct":[["BuildConfig",""],["BuildOption",""]]});
