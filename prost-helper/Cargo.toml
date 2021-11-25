@@ -1,6 +1,6 @@
 [package]
 name = "prost-helper"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2018"
 license = "MIT"
