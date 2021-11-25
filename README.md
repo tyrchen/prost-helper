@@ -10,10 +10,10 @@ First, add `prost-serde` and `prost-helper` to your `Cargo.toml`:
 
 ```
 [dependencies]
-prost-helper = "0.1"
+prost-helper = "0.6"
 
 [build-dependencies]
-prost-serde = "0.1"
+prost-serde = "0.3"
 ```
 
 Then copy the [default_build_config.json](prost-serde/default_build_config.json) to your project and customize it. See more information in [prost-serde/examples/build_config.json](prost-serde/examples/build_config.json). Then you could add this in your build.rs:
