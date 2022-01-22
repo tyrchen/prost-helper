@@ -171,6 +171,24 @@
 <span id="170">170</span>
 <span id="171">171</span>
 <span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A prost toolkit to build protobuf with extra derive/attributes support.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Usually when we define our protobuf messages, we hope some of the generated</span>
@@ -216,7 +234,7 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
 
-<span class="kw">use</span> <span class="ident">prost_build::Config</span>;
+<span class="kw">use</span> <span class="ident">prost_build</span>::{<span class="ident">Config</span>, <span class="ident">ServiceGenerator</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">process::Command</span>};
 
@@ -262,9 +280,8 @@
     <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Builder</span> {
-    <span class="doccomment">/// Initialize a Builder for building the protobuf files with the build opts provided by a BuildConfig</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">config</span>: <span class="ident">BuildConfig</span>) -&gt; <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">BuildConfig</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Builder</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">config</span>: <span class="ident">BuildConfig</span>) -&gt; <span class="self">Self</span> {
         <span class="comment">// For the output directory, use the specified one, or fallback to the</span>
         <span class="comment">// OUT_DIR env variable provided by Cargo if it exists (it should!), else</span>
         <span class="comment">// fallback to the current directory.</span>
@@ -311,7 +328,16 @@
             <span class="ident">files</span>: <span class="ident">config</span>.<span class="ident">files</span>,
         }
     }
+}
 
+<span class="kw">impl</span> <span class="ident">Builder</span> {
+    <span class="doccomment">/// Configures the code generator for service generator</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">service_generator</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">service_generator</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ServiceGenerator</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">service_generator</span>(<span class="ident">service_generator</span>);
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// build protobuf with configuration</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_protos</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">config</span>
             .<span class="ident">compile_protos</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">files</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">includes</span>)
@@ -335,12 +361,22 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">prost_build::Service</span>;
+
+    <span class="kw">struct</span> <span class="ident">MyServiceGen</span>;
+
+    <span class="kw">impl</span> <span class="ident">ServiceGenerator</span> <span class="kw">for</span> <span class="ident">MyServiceGen</span> {
+        <span class="kw">fn</span> <span class="ident">generate</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">service</span>: <span class="ident">Service</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">String</span>) {
+            <span class="macro">println!</span>(<span class="string">&quot;{service:#?}&quot;</span>);
+        }
+    }
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">generate_serde_validator_supported_code</span>() {
         <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="macro">include_str!</span>(<span class="string">&quot;../examples/build_config.yml&quot;</span>);
         <span class="kw">let</span> <span class="ident">config</span>: <span class="ident">BuildConfig</span> <span class="op">=</span> <span class="ident">serde_yaml::from_str</span>(<span class="ident">content</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">Builder::new</span>(<span class="ident">config</span>);
-        <span class="ident">builder</span>.<span class="ident">build_protos</span>();
+        <span class="ident">Builder::from</span>(<span class="ident">config</span>)
+            .<span class="ident">service_generator</span>(<span class="ident">Box::new</span>(<span class="ident">MyServiceGen</span>))
+            .<span class="ident">build_protos</span>();
     }
 }
 </code></pre></div>
