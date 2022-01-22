@@ -1,8 +1,8 @@
 [package]
 name = "prost-build-config"
-version = "0.4.1-alpha.0"
+version = "0.4.1"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 documentation = "https://docs.rs/prost-build-config"
 repository = "https://github.com/tyrchen/prost-helper"

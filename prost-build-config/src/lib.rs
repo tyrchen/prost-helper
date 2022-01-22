@@ -43,7 +43,7 @@
 //! }
 //! ```
 
-use prost_build::Config;
+use prost_build::{Config, ServiceGenerator};
 use serde::{Deserialize, Serialize};
 use std::{fs, process::Command};
 
@@ -89,9 +89,8 @@ pub struct Builder {
     pub files: Vec<String>,
 }
 
-impl Builder {
-    /// Initialize a Builder for building the protobuf files with the build opts provided by a BuildConfig
-    pub fn new(config: BuildConfig) -> Self {
+impl From<BuildConfig> for Builder {
+    fn from(config: BuildConfig) -> Self {
         // For the output directory, use the specified one, or fallback to the
         // OUT_DIR env variable provided by Cargo if it exists (it should!), else
         // fallback to the current directory.
@@ -138,7 +137,16 @@ impl Builder {
             files: config.files,
         }
     }
+}
 
+impl Builder {
+    /// Configures the code generator for service generator
+    pub fn service_generator(&mut self, service_generator: Box<dyn ServiceGenerator>) -> &mut Self {
+        self.config.service_generator(service_generator);
+        self
+    }
+
+    /// build protobuf with configuration
     pub fn build_protos(&mut self) {
         self.config
             .compile_protos(&self.files, &self.includes)
@@ -162,11 +170,21 @@ fn to_attr(attrs: &[String]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use prost_build::Service;
+
+    struct MyServiceGen;
+
+    impl ServiceGenerator for MyServiceGen {
+        fn generate(&mut self, service: Service, _buf: &mut String) {
+            println!("{service:#?}");
+        }
+    }
     #[test]
     fn generate_serde_validator_supported_code() {
         let content = include_str!("../examples/build_config.yml");
         let config: BuildConfig = serde_yaml::from_str(content).unwrap();
-        let mut builder = Builder::new(config);
-        builder.build_protos();
+        Builder::from(config)
+            .service_generator(Box::new(MyServiceGen))
+            .build_protos();
     }
 }
