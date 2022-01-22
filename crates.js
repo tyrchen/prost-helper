@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["prost_helper","prost_serde"];
+window.ALL_CRATES = ["prost_build_config","prost_helper"];
