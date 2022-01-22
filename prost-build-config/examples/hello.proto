@@ -11,7 +11,10 @@ message Hello {
   bytes data2 = 6;
   map<string, bytes> map = 7;
   repeated bytes list_data = 8;
+  World world = 9;
 }
+
+message World { uint32 world = 1; }
 
 enum Status {
   Ok = 0;

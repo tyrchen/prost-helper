@@ -1,0 +1,22 @@
+---
+includes: []
+files: []
+output: src/pb
+messages:
+  - paths: []
+    attrs:
+      - derive(serde::Serialize, serde::Deserialize, validator::Validate)
+      - serde(default)
+enums:
+  - paths: []
+    attrs:
+      - derive(serde::Serialize, serde::Deserialize, validator::Validate)
+      - serde(rename_all = "lowercase")
+fields:
+  - paths: []
+    attrs:
+      - validate(email)
+btree_map:
+  - paths: ['.']
+bytes:
+  - paths: ['.']

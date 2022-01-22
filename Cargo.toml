@@ -2,5 +2,5 @@
 
 members = [
     "prost-helper",
-    "prost-serde",
+    "prost-build-config",
 ]

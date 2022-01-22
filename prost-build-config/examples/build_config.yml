@@ -1,0 +1,50 @@
+---
+includes: [examples]
+files: [examples/hello.proto]
+output: examples/pb
+messages:
+  - paths: [helloworld.Hello]
+    attrs:
+      - derive(serde::Serialize, serde::Deserialize, validator::Validate)
+      - serde(default)
+  - paths: [helloworld.World]
+    attrs:
+      - derive(serde::Serialize, serde::Deserialize, validator::Validate)
+      - serde(default)
+
+enums:
+  - paths: [helloworld.Status]
+    attrs:
+      - derive(serde::Serialize, serde::Deserialize, validator::Validate)
+      - serde(rename_all = "lowercase")
+
+fields:
+  - paths: [msg]
+    attrs:
+      - serde(skip_serializing_if = "String::is_empty", default)
+      - validate(email)
+  - paths: [field_may_be_null]
+    attrs:
+      - serde(deserialize_with = "prost_helper::deserialize_null_default")
+  - path: [field_skip_zero]
+    attrs:
+      - serde(skip_serializing_if = "prost_helper::is_zero")
+      - validate(range(min = 1, max = 1024))
+  - path: [filed_skip]
+    attrs:
+      - serde(skip_serializing)
+  - paths:
+      - Hello.data1
+      - Hello.data2
+      - Hello.map
+    attrs:
+      - serde(serialize_with = "prost_helper::serialize_buf",deserialize_with = "prost_helper::deserialize_buf_bytes")
+  - paths: [Hello.list_data]
+    attrs:
+      - serde(serialize_with = "prost_helper::serialize_repeat_buf", deserialize_with = "prost_helper::deserialize_repeat_buf_bytes")
+  - paths: [Hello.world]
+    attrs:
+      - validate(required)
+bytes: [.]
+
+btree_maps: [Hello.map]

@@ -1,23 +1,23 @@
 [package]
-name = "prost-serde"
-version = "0.3.0"
+name = "prost-build-config"
+version = "0.4.0"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2018"
 license = "MIT"
-documentation = "https://docs.rs/prost-serde"
+documentation = "https://docs.rs/prost-build-config"
 repository = "https://github.com/tyrchen/prost-helper"
 homepage = "https://github.com/tyrchen/prost-helper"
 description = """
-A prost toolkit to build protobuf with serde support.
+A prost toolkit to build protobuf with extra derive/attrs support.
 """
 readme = "../README.md"
 categories = ["development-tools::build-utils"]
-keywords = ["protobuf", "prost", "serde"]
+keywords = ["protobuf", "prost", "serde", "derive"]
 
 [dependencies]
 prost-build = "0.9"
-serde_json = "1"
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
+serde_yaml = "0.8"
 prost-helper = "0.6"
