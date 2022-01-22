@@ -1,6 +1,6 @@
 [package]
 name = "prost-build-config"
-version = "0.4.1"
+version = "0.4.2-alpha.0"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2021"
 license = "MIT"
