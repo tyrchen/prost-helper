@@ -34,12 +34,12 @@
 //! Then you could use it in:
 //!
 //! ```ignore
-//! use prost_build_config::Builder;
+//! use prost_build_config::{BuildConfig, Builder};
 //!
 //! fn main() {
-//!     let content = include_str!("../examples/build_config.json");
-//!     let builder: BuildConfig = serde_yaml::from_str(content).unwrap();
-//!     builder.build_protos();
+//!     let content = include_str!("../examples/build_config.yml");
+//!     let config: BuildConfig = serde_yaml::from_str(content).unwrap();
+//!     Builder::from(config).build_protos();
 //! }
 //! ```
 
