@@ -16,7 +16,7 @@ prost-helper = "0.6"
 prost-serde = "0.3"
 ```
 
-Then copy the [default_build_config.json](prost-serde/default_build_config.json) to your project and customize it. See more information in [prost-serde/examples/build_config.json](prost-serde/examples/build_config.json). Then you could add this in your build.rs:
+Then copy the [default_build_config.yml](prost-build-config/default_build_config.yml) to your project and customize it. See more information in [prost-serde/examples/build_config.yml](prost-build-config/examples/build_config.yml). Then you could add this in your build.rs:
 
 ```rust
 fn main() {
