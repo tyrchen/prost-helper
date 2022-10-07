@@ -17,6 +17,7 @@ prost-helper = "0.6"
 prost-build-config = "0.4"
 ```
 
+
 Then copy the [prost-build-config/default_build_config.yml](prost-build-config/default_build_config.yml) to your project and customize it. See more information in [prost-build-config/examples/build_config.yml](prost-build-config/examples/build_config.yml). Then you could add this in your build.rs:
 
 ```rust
