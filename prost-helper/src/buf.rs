@@ -111,7 +111,7 @@ mod tests {
 
     #[derive(serde::Serialize, serde::Deserialize)]
     #[serde(default)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message)]
     pub struct Hello {
         #[prost(string, tag = "1")]
         pub msg: String,
@@ -143,13 +143,14 @@ mod tests {
 
     #[derive(serde::Serialize, serde::Deserialize)]
     #[serde(default)]
-    #[derive(Clone, PartialEq, Message)]
+    #[derive(Clone, PartialEq, Eq, Message)]
     pub struct ObjectId {
         /// the value of the id
         #[prost(oneof = "Data", tags = "2, 3")]
         pub data: ::core::option::Option<Data>,
     }
-    #[derive(Clone, PartialEq, Serialize, Deserialize, Oneof)]
+
+    #[derive(Clone, PartialEq, Eq, Serialize, Deserialize, Oneof)]
     pub enum Data {
         #[prost(string, tag = "2")]
         Result(String),

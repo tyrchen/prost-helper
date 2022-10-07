@@ -33,7 +33,7 @@ If you'd like to generate the implementation for `From` trait to `Vec<u8>`, or `
 use prost::Message;
 use std::convert::TryInto;
 
-#[derive(Clone, PartialEq, Message)]
+#[derive(Clone, PartialEq, Eq, Message)]
 pub struct Hello {
     #[prost(string, tag = "1")]
     pub msg: String,

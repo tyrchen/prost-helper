@@ -12,7 +12,7 @@
 //! use prost_helper::{prost_into_vec, vec_try_into_prost};
 //! use prost::Message;
 //!
-//! #[derive(Clone, PartialEq, prost::Message)]
+//! #[derive(Clone, PartialEq, Eq, prost::Message)]
 //! pub struct Hello {
 //!     #[prost(string, tag = "1")]
 //!     pub msg: String,

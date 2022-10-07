@@ -16,7 +16,7 @@
 //! ```ignore
 //! #[derive(serde::Serialize, serde::Deserialize)]
 //! #[serde(default)]
-//! #[derive(Clone, PartialEq, ::prost::Message)]
+//! #[derive(Clone, PartialEq, Eq, ::prost::Message)]
 //! pub struct RequestPing {
 //!     #[prost(string, tag = "1")]
 //!     pub ping: ::prost::alloc::string::String,
