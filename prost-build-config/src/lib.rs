@@ -4,7 +4,7 @@
 //! data structures can derive other traits. e.g. serde support. Fortunately
 //! `prost-build` has that capability - you can create a config with
 //! `prost_build::Config::new()` and then set proper attributes for type or field.
-//! For exmaple, you can add serde support for this structure by using:
+//! For example, you can add serde support for this structure by using:
 //!
 //! ```ignore
 //! config.type_attribute("package.RequestPing", "#[derive(serde::Serialize, serde::Deserialize)]");
@@ -16,7 +16,7 @@
 //! ```ignore
 //! #[derive(serde::Serialize, serde::Deserialize)]
 //! #[serde(default)]
-//! #[derive(Clone, PartialEq, ::prost::Message)]
+//! #[derive(Clone, PartialEq, Eq, ::prost::Message)]
 //! pub struct RequestPing {
 //!     #[prost(string, tag = "1")]
 //!     pub ping: ::prost::alloc::string::String,
@@ -34,12 +34,12 @@
 //! Then you could use it in:
 //!
 //! ```ignore
-//! use prost_build_config::Builder;
+//! use prost_build_config::{BuildConfig, Builder};
 //!
 //! fn main() {
-//!     let content = include_str!("../examples/build_config.json");
-//!     let builder: BuildConfig = serde_yaml::from_str(content).unwrap();
-//!     builder.build_protos();
+//!     let content = include_str!("../examples/build_config.yml");
+//!     let config: BuildConfig = serde_yaml::from_str(content).unwrap();
+//!     Builder::from(config).build_protos();
 //! }
 //! ```
 

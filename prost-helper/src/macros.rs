@@ -99,7 +99,7 @@ mod tests {
     use serde::{Deserialize, Serialize};
     use std::convert::TryInto;
 
-    #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
+    #[derive(Clone, PartialEq, Eq, Message, Serialize, Deserialize)]
     pub struct Hello {
         #[prost(string, tag = "1")]
         pub msg: String,
@@ -107,7 +107,7 @@ mod tests {
         pub value: u64,
     }
 
-    #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
+    #[derive(Clone, PartialEq, Eq, Message, Serialize, Deserialize)]
     struct World {
         #[prost(string, tag = "1")]
         pub msg: String,

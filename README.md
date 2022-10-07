@@ -1,27 +1,31 @@
 # prost-helper
 
 Two crates are provided to facilitate [prost](https://github.com/danburkert/prost) to better work with protobuf:
-- prost-serde: help you to generate serde compatible code with prost and protobuf files. More in [documentation](https://docs.rs/prost-serde).
+
+- prost-build-config: help you to generate serde compatible code with prost and protobuf files. More in [documentation](https://docs.rs/prost-build-config).
 - prost-helper: macros and functions to facilitate prost. More in [documentation](https://docs.rs/prost-helper).
 
 ## Using `prost-helper` in a Cargo Project
 
-First, add `prost-serde` and `prost-helper` to your `Cargo.toml`:
+First, add `prost-build-config` and `prost-helper` to your `Cargo.toml`:
 
 ```
 [dependencies]
 prost-helper = "0.6"
 
 [build-dependencies]
-prost-serde = "0.3"
+prost-build-config = "0.4"
 ```
 
-Then copy the [default_build_config.yml](prost-build-config/default_build_config.yml) to your project and customize it. See more information in [prost-serde/examples/build_config.yml](prost-build-config/examples/build_config.yml). Then you could add this in your build.rs:
+
+Then copy the [prost-build-config/default_build_config.yml](prost-build-config/default_build_config.yml) to your project and customize it. See more information in [prost-build-config/examples/build_config.yml](prost-build-config/examples/build_config.yml). Then you could add this in your build.rs:
 
 ```rust
+use prost_build_config::{BuildConfig, Builder};
+
 fn main() {
-    let json = include_str!("path/to/your/build_config.json");
-    build_with_serde(json);
+    let config: BuildConfig = serde_yaml::from_str(include_str!("path/to/your/build_config.yml")).unwrap();
+    Builder::from(config).build_protos();
 }
 ```
 
@@ -33,7 +37,7 @@ If you'd like to generate the implementation for `From` trait to `Vec<u8>`, or `
 use prost::Message;
 use std::convert::TryInto;
 
-#[derive(Clone, PartialEq, Message)]
+#[derive(Clone, PartialEq, Eq, Message)]
 pub struct Hello {
     #[prost(string, tag = "1")]
     pub msg: String,
