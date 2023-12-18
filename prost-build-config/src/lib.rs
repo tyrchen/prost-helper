@@ -153,7 +153,7 @@ impl Builder {
             .unwrap_or_else(|e| panic!("Failed to compile proto files. Err: {:?}", e));
 
         Command::new("cargo")
-            .args(&["fmt"])
+            .args(["fmt"])
             .status()
             .expect("cargo fmt failed");
     }

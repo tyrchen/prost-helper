@@ -1,6 +1,4 @@
 [workspace]
 
-members = [
-    "prost-helper",
-    "prost-build-config",
-]
+members = ["prost-helper", "prost-build-config"]
+resolver = "2"

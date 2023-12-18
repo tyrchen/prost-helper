@@ -1,4 +1,4 @@
-use base64::{decode_config, display::Base64Display, encode_config, URL_SAFE_NO_PAD};
+use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use bytes::Bytes;
 use serde::{de, ser::SerializeSeq, Deserialize, Deserializer, Serializer};
 
@@ -7,12 +7,8 @@ where
     S: Serializer,
     T: AsRef<[u8]>,
 {
-    // serializer.serialize_str(&base64::encode(bytes))
-
-    // use a wrapper type with a Display implementation to avoid
-    // allocating the String.
-    //
-    serializer.collect_str(&Base64Display::with_config(bytes.as_ref(), URL_SAFE_NO_PAD))
+    let content = URL_SAFE_NO_PAD.encode(bytes.as_ref());
+    serializer.collect_str(&content)
 }
 
 pub fn deserialize_buf_vec<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
@@ -20,7 +16,9 @@ where
     D: Deserializer<'de>,
 {
     let s = <&str>::deserialize(deserializer)?;
-    decode_config(s, URL_SAFE_NO_PAD).map_err(de::Error::custom)
+    URL_SAFE_NO_PAD
+        .decode(s.as_bytes())
+        .map_err(de::Error::custom)
 }
 
 pub fn deserialize_buf_bytes<'de, D>(deserializer: D) -> Result<Bytes, D::Error>
@@ -28,7 +26,9 @@ where
     D: Deserializer<'de>,
 {
     let s = <&str>::deserialize(deserializer)?;
-    let r = decode_config(s, URL_SAFE_NO_PAD).map_err(de::Error::custom)?;
+    let r = URL_SAFE_NO_PAD
+        .decode(s.as_bytes())
+        .map_err(de::Error::custom)?;
     Ok(Bytes::from(r))
 }
 
@@ -39,7 +39,7 @@ where
 {
     let mut seq = serializer.serialize_seq(Some(data.len()))?;
     for item in data {
-        let e = encode_config(item, URL_SAFE_NO_PAD);
+        let e = URL_SAFE_NO_PAD.encode(item.as_ref());
         seq.serialize_element(&e)?;
     }
     seq.end()
@@ -64,7 +64,11 @@ where
         {
             let mut data: Vec<Vec<u8>> = Vec::with_capacity(seq.size_hint().unwrap_or(0));
             while let Some(v) = seq.next_element::<Vec<u8>>()? {
-                data.push(decode_config(v, URL_SAFE_NO_PAD).map_err(de::Error::custom)?);
+                data.push(
+                    URL_SAFE_NO_PAD
+                        .decode(v.as_slice())
+                        .map_err(de::Error::custom)?,
+                );
             }
             Ok(data)
         }
@@ -92,7 +96,9 @@ where
         {
             let mut data: Vec<Bytes> = Vec::with_capacity(seq.size_hint().unwrap_or(0));
             while let Some(v) = seq.next_element::<Vec<u8>>()? {
-                let r = decode_config(v, URL_SAFE_NO_PAD).map_err(de::Error::custom)?;
+                let r = URL_SAFE_NO_PAD
+                    .decode(v.as_slice())
+                    .map_err(de::Error::custom)?;
                 data.push(Bytes::from(r));
             }
             Ok(data)

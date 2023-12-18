@@ -1,6 +1,6 @@
 [package]
 name = "prost-helper"
-version = "0.7.0"
+version = "0.8.0"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2021"
 license = "MIT"
@@ -15,14 +15,14 @@ categories = ["development-tools"]
 keywords = ["protobuf", "prost", "serde"]
 
 [dependencies]
-bytes = "1.2.1"
-num-traits = "0.2.15"
-prost = "0.11.0"
-serde = { version = "1.0.145", features = ["derive"] }
-serde_json = { version = "1.0.85", optional = true }
-base64 = { version = "0.13.0", optional = true }
+bytes = "1.5.0"
+num-traits = "0.2.17"
+prost = "0.12.3"
+serde = { version = "1.0.193", features = ["derive"] }
+serde_json = { version = "1.0.108", optional = true }
+base64 = { version = "0.21.5", optional = true }
 
 [features]
-default = []
+default = ["json", "b64"]
 json = ["serde_json"]
 b64 = ["base64"]
