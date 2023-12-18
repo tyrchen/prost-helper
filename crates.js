@@ -1,1 +1,0 @@
-window.ALL_CRATES = ["prost_build_config","prost_helper"];
