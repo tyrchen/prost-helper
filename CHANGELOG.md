@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file. See [conven
 ---
 ## [prost-helper-v0.8.0](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.4.1..prost-helper-v0.8.0) - 2023-12-18
 
+### Bug Fixes
+
+- need protoc for gh action - ([81f9125](https://github.com/tyrchen/prost-helper/commit/81f91258324c5837916d3822fabe708d59638b19)) - Tyr Chen
+
 ### Features
 
 - update dependencies and use latest base64 - ([ccb1470](https://github.com/tyrchen/prost-helper/commit/ccb147004848b19e7387f0215393d91c0577d689)) - Tyr Chen
@@ -18,6 +22,7 @@ All notable changes to this project will be documented in this file. See [conven
 - update readme paths (#5)
 
 Co-authored-by: Tyr Chen <tyr.chen@gmail.com> - ([4b9b83f](https://github.com/tyrchen/prost-helper/commit/4b9b83fc4277dc4452e6eab27816a7319fbaa6f5)) - Jacek Chmielewski
+- Update CHANGELOG.md - ([3b51e35](https://github.com/tyrchen/prost-helper/commit/3b51e3524ec99dbfa90a5d2ab3ffc92610a2e4ca)) - Tyr Chen
 
 ---
 ## [prost-build-config-v0.4.1](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.4.0..prost-build-config-v0.4.1) - 2022-01-22
