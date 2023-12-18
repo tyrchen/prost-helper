@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 Co-authored-by: Tyr Chen <tyr.chen@gmail.com> - ([4b9b83f](https://github.com/tyrchen/prost-helper/commit/4b9b83fc4277dc4452e6eab27816a7319fbaa6f5)) - Jacek Chmielewski
 - Update CHANGELOG.md - ([3b51e35](https://github.com/tyrchen/prost-helper/commit/3b51e3524ec99dbfa90a5d2ab3ffc92610a2e4ca)) - Tyr Chen
+- Update CHANGELOG.md - ([0b518f8](https://github.com/tyrchen/prost-helper/commit/0b518f88fe97dd5d8475ff7696d0bde95846850c)) - Tyr Chen
 
 ---
 ## [prost-build-config-v0.4.1](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.4.0..prost-build-config-v0.4.1) - 2022-01-22
