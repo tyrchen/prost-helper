@@ -16,7 +16,5 @@ fields:
   - paths: []
     attrs:
       - validate(email)
-btree_map:
-  - paths: ['.']
-bytes:
-  - paths: ['.']
+btree_map: ['.']
+bytes: ['.']
