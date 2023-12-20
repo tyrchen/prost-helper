@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
+## [prost-build-config-v0.6.1](https://github.com/tyrchen/prost-helper/compare/prost-helper-v0.8.0..prost-build-config-v0.6.1) - 2023-12-20
+
+### Bug Fixes
+
+- use prettyplease - ([0be00ec](https://github.com/tyrchen/prost-helper/commit/0be00ec5e0a5f938fa612fe2fd1bfe6cab9ad165)) - Tyr Chen
+
+### Other
+
+- Update CHANGELOG.md - ([98b707c](https://github.com/tyrchen/prost-helper/commit/98b707c9d6395d38e691b6d5fb82309cc023af7f)) - Tyr Chen
+
+---
 ## [prost-helper-v0.8.0](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.4.1..prost-helper-v0.8.0) - 2023-12-18
 
 ### Bug Fixes
