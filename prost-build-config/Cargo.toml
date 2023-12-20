@@ -1,6 +1,6 @@
 [package]
 name = "prost-build-config"
-version = "0.6.0"
+version = "0.6.1"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2021"
 license = "MIT"
@@ -15,7 +15,7 @@ categories = ["development-tools::build-utils"]
 keywords = ["protobuf", "prost", "serde", "derive"]
 
 [dependencies]
-prost-build = "0.12.3"
+prost-build = { version = "0.12.3", features = ["prettyplease"] }
 serde = { version = "1.0.193", features = ["derive"] }
 
 [dev-dependencies]
