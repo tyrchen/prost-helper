@@ -45,11 +45,13 @@
 
 use prost_build::{Config, ServiceGenerator};
 use serde::{Deserialize, Serialize};
-use std::{fs, process::Command};
+use std::{fs, path::PathBuf, process::Command};
 
 #[derive(Deserialize, Serialize, Debug, Default)]
 #[serde(default)]
 pub struct BuildConfig {
+    /// base path for protobuf files
+    pub base_path: Option<PathBuf>,
     /// protobuf include dirs
     pub includes: Vec<String>,
     /// protobuf files
@@ -131,10 +133,15 @@ impl From<BuildConfig> for Builder {
 
         fs::create_dir_all(&output_dir).unwrap();
         c.out_dir(&output_dir);
+
+        let f = |v: String| match config.base_path {
+            Some(ref base_path) => base_path.join(v).to_string_lossy().to_string(),
+            None => v,
+        };
         Self {
             config: c,
-            includes: config.includes,
-            files: config.files,
+            includes: config.includes.into_iter().map(f).collect(),
+            files: config.files.into_iter().map(f).collect(),
         }
     }
 }

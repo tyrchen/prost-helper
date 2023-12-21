@@ -40,6 +40,12 @@ mod buf;
 #[cfg(feature = "b64")]
 pub use buf::*;
 
+#[cfg(feature = "id")]
+mod id;
+
+#[cfg(feature = "id")]
+pub use id::*;
+
 #[cfg(feature = "json")]
 /// Convert the prost message to JSON string for debugging purpose. Need serde_json support.
 pub trait ToJson {

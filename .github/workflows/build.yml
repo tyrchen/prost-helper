@@ -5,7 +5,7 @@ on:
     branches:
       - master
     tags:
-      - prost-*
+      - prost-prost-build-config-v*
   pull_request:
     branches:
       - master

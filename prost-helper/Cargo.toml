@@ -1,6 +1,6 @@
 [package]
 name = "prost-helper"
-version = "0.8.0"
+version = "0.8.1"
 authors = ["Tyr Chen <tyr.chen@gmail.com>"]
 edition = "2021"
 license = "MIT"
@@ -21,8 +21,10 @@ prost = "0.12.3"
 serde = { version = "1.0.193", features = ["derive"] }
 serde_json = { version = "1.0.108", optional = true }
 base64 = { version = "0.21.5", optional = true }
+uuid7 = { version = "0.7.2", optional = true }
 
 [features]
-default = ["json", "b64"]
+default = ["json", "b64", "id"]
 json = ["serde_json"]
 b64 = ["base64"]
+id = ["uuid7"]
