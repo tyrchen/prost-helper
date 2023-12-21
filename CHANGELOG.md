@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
+## [prost-helper-v0.8.2](https://github.com/tyrchen/prost-helper/compare/prost-helper-v0.8.1..prost-helper-v0.8.2) - 2023-12-21
+
+### Miscellaneous Chores
+
+- fix dep - ([90e3521](https://github.com/tyrchen/prost-helper/commit/90e35215f853326e072c9f92deefbfe74a56e39d)) - Tyr Chen
+
+### Other
+
+- Update CHANGELOG.md - ([6844365](https://github.com/tyrchen/prost-helper/commit/6844365c2edb61209909a8091fcdf6218a79b8a3)) - Tyr Chen
+
+---
 ## [prost-helper-v0.8.1](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.6.1..prost-helper-v0.8.1) - 2023-12-21
 
 ### Bug Fixes
