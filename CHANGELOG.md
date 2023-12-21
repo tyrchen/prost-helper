@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
+## [prost-helper-v0.8.1](https://github.com/tyrchen/prost-helper/compare/prost-build-config-v0.6.1..prost-helper-v0.8.1) - 2023-12-21
+
+### Bug Fixes
+
+- fix default config - ([ce442cc](https://github.com/tyrchen/prost-helper/commit/ce442ccf82dcda531f0058538b9c0fa8cf7ca751)) - Tyr Chen
+
+### Features
+
+- 1) add base_path 2) add uuid7 serialize/deserialize to/from string - ([53c5d58](https://github.com/tyrchen/prost-helper/commit/53c5d58813a8903be83da89b1676f1a99eb00ff6)) - Tyr Chen
+
+### Other
+
+- Update CHANGELOG.md - ([270310c](https://github.com/tyrchen/prost-helper/commit/270310cdf4ebf6bfde54898bf18fc71b1cdc4480)) - Tyr Chen
+
+---
 ## [prost-build-config-v0.6.1](https://github.com/tyrchen/prost-helper/compare/prost-helper-v0.8.0..prost-build-config-v0.6.1) - 2023-12-20
 
 ### Bug Fixes
