@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
+## [prost-helper-v0.8.3](https://github.com/tyrchen/prost-helper/compare/prost-helper-v0.8.2..prost-helper-v0.8.3) - 2023-12-22
+
+### Bug Fixes
+
+- fix deserializer issue with `expected a borrowed string` - ([47776ec](https://github.com/tyrchen/prost-helper/commit/47776ecb51e6a17409b3559c71cec5308e635e95)) - Tyr Chen
+
+### Other
+
+- Update CHANGELOG.md - ([210bfc3](https://github.com/tyrchen/prost-helper/commit/210bfc3ae120a03116266262d9d07b17cebdf3be)) - Tyr Chen
+
+---
 ## [prost-helper-v0.8.2](https://github.com/tyrchen/prost-helper/compare/prost-helper-v0.8.1..prost-helper-v0.8.2) - 2023-12-21
 
 ### Miscellaneous Chores
