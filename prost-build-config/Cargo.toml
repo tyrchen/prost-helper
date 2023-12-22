@@ -20,4 +20,4 @@ serde = { version = "1.0.193", features = ["derive"] }
 
 [dev-dependencies]
 serde_yaml = "0.9.27"
-prost-helper = { version = "0.8.2", path = "../prost-helper" }
+prost-helper = { version = "0.8", path = "../prost-helper" }

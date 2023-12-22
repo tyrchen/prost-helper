@@ -15,7 +15,7 @@ pub fn deserialize_buf_vec<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let s = <&str>::deserialize(deserializer)?;
+    let s = String::deserialize(deserializer)?;
     URL_SAFE_NO_PAD
         .decode(s.as_bytes())
         .map_err(de::Error::custom)
@@ -25,7 +25,7 @@ pub fn deserialize_buf_bytes<'de, D>(deserializer: D) -> Result<Bytes, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let s = <&str>::deserialize(deserializer)?;
+    let s = String::deserialize(deserializer)?;
     let r = URL_SAFE_NO_PAD
         .decode(s.as_bytes())
         .map_err(de::Error::custom)?;

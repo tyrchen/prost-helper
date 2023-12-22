@@ -22,7 +22,7 @@ pub fn deserialize_id_vec<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let s = <&str>::deserialize(deserializer)?;
+    let s = String::deserialize(deserializer)?;
     if s.is_empty() {
         return Ok(vec![]);
     }
@@ -239,6 +239,8 @@ mod tests {
             s,
             r#"{"msg":"world","value_vec":"","list_vec":[],"value_bytes":"018c8afb-43d7-7f73-be38-95ed30027670","list_bytes":[]}"#
         );
+        let data = serde_json::from_str::<Hello>(&s).unwrap();
+        assert_eq!(data, hello);
     }
 
     #[test]
