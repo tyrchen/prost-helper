@@ -11,10 +11,10 @@ First, add `prost-build-config` and `prost-helper` to your `Cargo.toml`:
 
 ```
 [dependencies]
-prost-helper = "0.6"
+prost-helper = "0.8"
 
 [build-dependencies]
-prost-build-config = "0.4"
+prost-build-config = "0.6"
 ```
 
 
